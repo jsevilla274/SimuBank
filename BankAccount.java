@@ -7,19 +7,69 @@
 public abstract class BankAccount
 {
 	private double balance;				//Account balance
-	private double interestRate;		//Interest rate
+	private double annualRate;			//Annual interest rate
 	private int depositCount = 0;		//Number of deposits
-	private int withdrawalCount = 0;	//Number of withdrawals
+	private int withdrawCount = 0;		//Number of withdrawals
 	private int serviceCharge = 0;		//Monthly service charge
 
 	/**
-	 * Constructor initializes balance and interestRate
+	 * Constructor initializes balance and annualRate
 	 */
 
-	public BankAccount(double balance, double interestRate)
+	public BankAccount(double balance, double annualRate)
 	{
 		this.balance = balance;
-		this.interestRate = interestRate;
+		this.annualRate = annualRate;
 	}
 
+	/**
+	 * Retrieves current balance
+	 */
+
+	public double getBalance()
+	{
+		return balance;
+	}
+
+	/**
+	 * Deposits funds to balance
+	 */
+
+	public void deposit(double amount)
+	{
+		balance += amount;
+		depositCount++;
+	}
+
+	/**
+	 * Withdraws funds from balance
+	 */
+
+	public void withdraw(double amount)
+	{
+		balance -= amount;
+		withdrawCount++;
+	}
+
+	/**
+	 * Calculates monthly interest earned and adds to balance
+	 */
+
+	public void calcInterest()
+	{
+		double interestEarned = (annualRate/12) * balance;
+		balance += interestEarned;
+	}
+
+	/**
+	 * Processes monthly charges, interests and resets transaction counts
+	 */
+
+	public void monthlyProcess()
+	{
+		balance -= serviceCharge;
+		calcInterest();
+		depositCount = 0;
+		withdrawCount = 0; 
+	}
 }
