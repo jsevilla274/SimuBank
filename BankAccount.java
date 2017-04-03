@@ -32,6 +32,15 @@ public abstract class BankAccount
 	}
 
 	/**
+	 * Sets monthly service charge
+	 */
+
+	public void setCharges(int amount)
+	{
+		serviceCharge = amount;
+	}
+
+	/**
 	 * Retrieves withdraw count
 	 */
 
@@ -106,6 +115,7 @@ public abstract class BankAccount
 		balance -= serviceCharge;
 		calcInterest();
 		depositCount = 0;
-		withdrawCount = 0; 
+		withdrawCount = 0;
+		serviceCharge = 0;
 	}
 }
