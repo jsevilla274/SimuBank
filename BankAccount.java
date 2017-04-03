@@ -32,6 +32,42 @@ public abstract class BankAccount
 	}
 
 	/**
+	 * Retrieves withdraw count
+	 */
+
+	public int getWithdrawals()
+	{
+		return withdrawCount;
+	}
+
+	/**
+	 * Sets withdraw count to 0
+	 */
+
+	public void resetWithdrawals()
+	{
+		withdrawCount = 0;
+	}
+
+	/**
+	 * Retrieves deposit count
+	 */
+
+	public int getDeposits()
+	{
+		return depositCount;
+	}
+
+	/**
+	 * Sets deposit count to 0
+	 */
+
+	public void resetDeposits()
+	{
+		depositCount = 0;
+	}
+
+	/**
 	 * Deposits funds to balance
 	 */
 
