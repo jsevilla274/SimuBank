@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.text.DecimalFormat;
 
 /**
  * This program demonstrates the SavingsAccount class
@@ -27,7 +28,9 @@ public class Driver
 		//Create savings account
 		account = new SavingsAccount(balance, annualRate);
 
-		System.out.print("Your account has been opened successfully!");
+		System.out.println("Your account has been opened successfully!");
+		//call decision prompt with new savings account
+
 	}
 
 	public static double startingBalance(Scanner keyboard)
@@ -83,5 +86,66 @@ public class Driver
 			}
 		}
 		return annualRate;
+	}
+
+	public static void decisionPrompt(SavingsAccount account, Scanner keyboard)
+	{	
+		boolean running = true;		//determines when to exit program
+		int choice = 0;
+
+		//DecimalFormat to format money amount.
+		DecimalFormat money = new DecimalFormat("#,##0.00");
+
+		//Retrieve balance and format it before inserting it in the prompt
+		accountPrompt(money.format(account.getBalance()));
+
+		while(running)
+		{
+			try
+			{
+				System.out.print("Please enter a choice number: ");
+				choice = keyboard.nextInt();
+
+				//Consume stray input
+				keyboard.nextLine();
+
+				if (choice == 1)
+				{
+					System.out.print("")
+				}
+				else if (choice == 2)
+				{
+
+				}
+				else if (choice == 3)
+				{
+
+				}
+				else if (choice == 4)
+				{
+
+				}
+				else if (choice == 5)
+				{
+					running = false;
+				}
+				else
+				{
+					System.out.print("That is an invalid choice. ");
+				}
+
+			}
+			catch (InputMismatchException e)
+			{
+				//Consume stray input
+				keyboard.nextLine();
+			}
+		}
+	}
+
+	public static void accountPrompt(String formattedBalance)
+	{
+		System.out.println("SimuBank Savings Account Balance: $" + formattedBalance);
+		System.out.print("What would you like to do?\n1.Deposit\n2.Withdraw\n3.View Statement\n4.Proceed to the next month\n5.Log out\n\n");
 	}
 }
