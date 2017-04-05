@@ -42,9 +42,6 @@ public class Driver
 			{
 				balance = keyboard.nextDouble();
 
-				//Consume stray input
-				keyboard.nextLine();
-
 				if (balance < 25) {
 					System.out.print("Insufficient funds to open the account. Please enter a different starting balance: ");
 				}
@@ -52,7 +49,9 @@ public class Driver
 			catch (InputMismatchException e)
 			{
 				System.out.print("I'm sorry, that is not valid input. Please enter your starting balance: ");
-
+			}
+			finally
+			{
 				//Consume stray input
 				keyboard.nextLine();
 			}
@@ -69,9 +68,6 @@ public class Driver
 			{
 				annualRate = keyboard.nextDouble();
 
-				//Consume stray input
-				keyboard.nextLine();
-
 				if (annualRate < 0)
 				{
 					System.out.print("Please enter a non-negative annual interest rate: ");
@@ -80,7 +76,9 @@ public class Driver
 			catch (InputMismatchException e)
 			{
 				System.out.print("I'm sorry, that is not valid input. Please enter your annual interest rate: ");
-
+			}
+			finally
+			{
 				//Consume stray input
 				keyboard.nextLine();
 			}
