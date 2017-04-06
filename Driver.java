@@ -51,6 +51,7 @@ public class Driver
 
 				if (choice == 1)
 				{
+					deposit(account, keyboard, money);
 				}
 				else if (choice == 2)
 				{
@@ -87,7 +88,7 @@ public class Driver
 	public static void choicePrompt(String formattedBalance)
 	{
 		System.out.print("\nSimuBank Savings Account Balance: $" + formattedBalance);
-		System.out.print("\nWhat would you like to do?\n1.Deposit\n2.Withdraw\n3.View Statement\n4.Proceed to the next month\n5.Log out\n");
+		System.out.print("\nWhat would you like to do?\n1.Deposit\n2.Withdraw\n3.View Statement\n4.Proceed to next month\n5.Log out\n");
 	}
 
 	public static double startingBalance(Scanner keyboard)
@@ -143,12 +144,50 @@ public class Driver
 		return annualRate;
 	}
 
+	public static void deposit(SavingsAccount account, Scanner keyboard, DecimalFormat money)
+	{
+		double amount = -1;
+
+		System.out.print("\nHow much would you like to deposit?");
+
+		while (amount < 0)
+		{
+			try
+			{
+				System.out.print("\nEnter amount: $");
+				amount = keyboard.nextDouble();
+				//Consume stray input
+				keyboard.nextLine();
+
+				if (amount < 0)
+				{
+					System.out.print("Please enter a non-negative amount to deposit.");
+				}
+			}
+			catch(InputMismatchException e)
+			{
+				System.out.print("Invalid input. Please try again.");
+				//Consume stray input
+				keyboard.nextLine();
+			}
+		}
+
+		//Deposit amount
+		account.deposit(amount);
+
+		//Success prompt
+		System.out.print("\n$" + money.format(amount) + " have been successfully deposited into your account!\n");
+
+		//Re-prompt choices
+		choicePrompt(money.format(account.getBalance()));
+	}
+
 	public static void withdraw(SavingsAccount account, Scanner keyboard, DecimalFormat money)
 	{
 		double amount = -1;
 		if (account.checkStatus())
 		{
-			System.out.print("\nHow much would you like to withdraw today?");
+			System.out.print("\nHow much would you like to withdraw?");
 
 			while (amount < 0 || amount > account.getBalance())
 			{
