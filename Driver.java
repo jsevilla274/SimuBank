@@ -17,6 +17,9 @@ public class Driver
 		//Scanner object for keyboard input.
 		Scanner keyboard = new Scanner(System.in);
 
+		//DecimalFormat to format money amount.
+		DecimalFormat money = new DecimalFormat("#,##0.00");
+
 		//Prompt user for starting balance.
 		System.out.print("Thank you for opening a new savings account!\nPlease enter your starting balance (Must have an minimum initial deposit of $25): ");
 		balance = startingBalance(keyboard);
@@ -25,12 +28,66 @@ public class Driver
 		System.out.print("Please enter your annual interest rate: ");
 		annualRate = startingRate(keyboard);
 
-		//Create savings account
+		System.out.print("\nYour account has been opened successfully!\n");
+
+		//Create new account
 		account = new SavingsAccount(balance, annualRate);
 
-		System.out.println("Your account has been opened successfully!");
-		//call decision prompt with new savings account
+		//Format balance and display choices
+		choicePrompt(money.format(account.getBalance()));
 
+		boolean running = true;		//Determines when to exit main prompt loop
+		int choice = 0;
+
+		//Main prompt loop
+		while(running)
+		{
+			try
+			{
+				System.out.print("Please enter a choice number: ");
+				choice = keyboard.nextInt();
+				//Consume stray input
+				keyboard.nextLine();
+
+				if (choice == 1)
+				{
+				}
+				else if (choice == 2)
+				{
+					withdraw(account, keyboard, money);
+				}
+				else if (choice == 3)
+				{
+
+				}
+				else if (choice == 4)
+				{
+
+				}
+				else if (choice == 5)
+				{
+					running = false;
+				}
+				else
+				{
+					System.out.print("That is an invalid choice. ");
+				}
+
+			}
+			catch (InputMismatchException e)
+			{
+				System.out.print("That is invalid input. ");
+				//Consume stray input
+				keyboard.nextLine();
+			}
+		}
+
+	}
+
+	public static void choicePrompt(String formattedBalance)
+	{
+		System.out.print("\nSimuBank Savings Account Balance: $" + formattedBalance);
+		System.out.print("\nWhat would you like to do?\n1.Deposit\n2.Withdraw\n3.View Statement\n4.Proceed to the next month\n5.Log out\n");
 	}
 
 	public static double startingBalance(Scanner keyboard)
@@ -86,64 +143,56 @@ public class Driver
 		return annualRate;
 	}
 
-	public static void decisionPrompt(SavingsAccount account, Scanner keyboard)
-	{	
-		boolean running = true;		//determines when to exit program
-		int choice = 0;
-
-		//DecimalFormat to format money amount.
-		DecimalFormat money = new DecimalFormat("#,##0.00");
-
-		//Retrieve balance and format it before inserting it in the prompt
-		accountPrompt(money.format(account.getBalance()));
-
-		while(running)
-		{
-			try
-			{
-				System.out.print("Please enter a choice number: ");
-				choice = keyboard.nextInt();
-
-				//Consume stray input
-				keyboard.nextLine();
-
-				if (choice == 1)
-				{
-					System.out.print("")
-				}
-				else if (choice == 2)
-				{
-
-				}
-				else if (choice == 3)
-				{
-
-				}
-				else if (choice == 4)
-				{
-
-				}
-				else if (choice == 5)
-				{
-					running = false;
-				}
-				else
-				{
-					System.out.print("That is an invalid choice. ");
-				}
-
-			}
-			catch (InputMismatchException e)
-			{
-				//Consume stray input
-				keyboard.nextLine();
-			}
-		}
-	}
-
-	public static void accountPrompt(String formattedBalance)
+	public static void withdraw(SavingsAccount account, Scanner keyboard, DecimalFormat money)
 	{
-		System.out.println("SimuBank Savings Account Balance: $" + formattedBalance);
-		System.out.print("What would you like to do?\n1.Deposit\n2.Withdraw\n3.View Statement\n4.Proceed to the next month\n5.Log out\n\n");
+		double amount = -1;
+		if (account.checkStatus())
+		{
+			System.out.print("\nHow much would you like to withdraw today?");
+
+			while (amount < 0 || amount > account.getBalance())
+			{
+				try
+				{
+					System.out.print("\nEnter amount: $");
+					amount = keyboard.nextDouble();
+					//Consume stray input
+					keyboard.nextLine();
+
+					if (amount < 0)
+					{
+						System.out.print("Please enter a non-negative amount to withdraw.");
+					}
+					else if (amount > account.getBalance())
+					{
+						System.out.print("Insufficient balance to complete withdrawal. Please try again.");
+					}
+				}
+				catch (InputMismatchException e)
+				{
+					System.out.print("Invalid input. Please try again.");
+					//Consume stray input
+					keyboard.nextLine();
+				}
+			}
+
+			//Withdraw amount
+			account.withdraw(amount);
+
+			//Success prompt
+			System.out.print("\n$" + money.format(amount) + " have been successfully withdrawn from your account!\n");
+		}
+		else
+		{
+			//Failure prompt
+			System.out.print("\nYou are unable to withdraw with an inactive account. To re-activate your account, please deposit funds to reach a minimum balance of $25.00 (Press Enter to continue)");
+
+			//Wait for Enter
+			keyboard.nextLine();
+		}
+
+		//Re-prompt choices
+		choicePrompt(money.format(account.getBalance()));
 	}
+
 }
