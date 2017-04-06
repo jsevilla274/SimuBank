@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.text.DecimalFormat;
+import java.io.*;
 
 /**
  * This program demonstrates the SavingsAccount class
@@ -8,11 +9,12 @@ import java.text.DecimalFormat;
 
 public class Driver
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		SavingsAccount account; 	//References the user's account
 		double balance;				//Starting balance
 		double annualRate;			//Annual interest rate
+		int month = 1;				//Months of account activity
 
 		//Scanner object for keyboard input.
 		Scanner keyboard = new Scanner(System.in);
@@ -44,7 +46,7 @@ public class Driver
 		{
 			try
 			{
-				System.out.print("Please enter a choice number: ");
+				System.out.print("\nPlease enter a choice number: ");
 				choice = keyboard.nextInt();
 				//Consume stray input
 				keyboard.nextLine();
@@ -59,11 +61,11 @@ public class Driver
 				}
 				else if (choice == 3)
 				{
-
+					statement(account, keyboard, money, annualRate, month);
 				}
 				else if (choice == 4)
 				{
-
+					//month++
 				}
 				else if (choice == 5)
 				{
@@ -166,7 +168,7 @@ public class Driver
 			}
 			catch(InputMismatchException e)
 			{
-				System.out.print("Invalid input. Please try again.");
+				System.out.print("Invalid input, please try again.");
 				//Consume stray input
 				keyboard.nextLine();
 			}
@@ -209,7 +211,7 @@ public class Driver
 				}
 				catch (InputMismatchException e)
 				{
-					System.out.print("Invalid input. Please try again.");
+					System.out.print("Invalid input, please try again.");
 					//Consume stray input
 					keyboard.nextLine();
 				}
@@ -234,4 +236,91 @@ public class Driver
 		choicePrompt(money.format(account.getBalance()));
 	}
 
+	public static void statement(SavingsAccount account, Scanner keyboard, DecimalFormat money, double annualRate, int month) throws IOException
+	{	
+		//Create Array with statement information
+		String[] info = new String[8];
+		info[0] = "******ACCOUNT STATEMENT******";
+		info[1] = "Month: " + month;
+		info[2] = "Balance: $" + money.format(account.getBalance());
+		info[3] = "Status: " + ((account.checkStatus()) ? "Active" : "Inactive");
+		info[4] = "Annual Rate: " + annualRate;
+		info[5] = "Withdrawals this month: " + account.getWithdrawals();
+		info[6] = "Deposits this month: " + account.getDeposits();
+		info[7] = "*****************************";
+
+		System.out.print("\n"); //formatting
+
+		//Print statement
+		for (String data : info)
+		{
+			System.out.println(data);
+		}
+
+		System.out.print("\nWould you like to save this statement as a text file? Y/N");
+		char input = validateYN(keyboard);
+
+		if (input == 'y' || input == 'Y')
+		{
+			String filename = "month_" + month + "_statement.txt";
+			File stateFile = new File(filename);
+
+			if (stateFile.exists())
+			{
+				System.out.print("\n\""+ filename +"\" already exists, would you like to update the statement? Y/N");
+				input = validateYN(keyboard);
+				if (input == 'y' || input == 'Y')
+				{
+					writeStatement(stateFile, info);
+					System.out.print("\n\""+ filename +"\" updated successfully!\n");
+				}
+			}
+			else
+			{
+				writeStatement(stateFile, info);
+				System.out.print("\n\""+ filename +"\" created successfully!\n");
+			}
+		}
+
+		//Re-prompt choices
+		choicePrompt(money.format(account.getBalance()));
+	}
+
+	public static char validateYN(Scanner keyboard)
+	{
+		char input = '\0';				//character representing user input
+		String temp = " ";				//temporary string to hold user input
+		boolean invalidInput = true;	//tracks if user placed correct input
+
+		while (invalidInput)
+		{
+			System.out.print("\nEnter letter: ");
+			temp = keyboard.nextLine();
+			if (temp.length() > 0)
+			{
+				input = temp.charAt(0);
+			}
+			
+			if (input == 'y' || input == 'Y' || input == 'n' || input == 'N')
+			{
+				invalidInput = false;
+			}
+			else
+			{
+				System.out.print("Invalid input, please try again.");
+			}
+		}
+
+		return input;
+	}
+
+	public static void writeStatement(File file, String[] info) throws IOException
+	{
+		PrintWriter outputFile = new PrintWriter(file);
+		for (String data : info)
+		{
+			outputFile.println(data);
+		}
+		outputFile.close();
+	}
 }
