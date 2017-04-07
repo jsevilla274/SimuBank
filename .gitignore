@@ -1,2 +1,5 @@
 #java .class files
 *.class
+
+#month files
+/month*.txt
