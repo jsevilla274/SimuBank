@@ -6,7 +6,7 @@
 
 public abstract class BankAccount
 {
-	private double balance;				//Account balance
+	private int balance;				//Account balance
 	private double annualRate;			//Annual interest rate
 	private int depositCount = 0;		//Number of deposits
 	private int withdrawCount = 0;		//Number of withdrawals
@@ -18,7 +18,7 @@ public abstract class BankAccount
 
 	public BankAccount(double balance, double annualRate)
 	{
-		this.balance = balance;
+		this.balance = Cash.convert(balance);
 		this.annualRate = annualRate;
 	}
 
@@ -28,7 +28,7 @@ public abstract class BankAccount
 
 	public double getBalance()
 	{
-		return balance;
+		return Cash.convert(balance);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public abstract class BankAccount
 
 	public void deposit(double amount)
 	{
-		balance += amount;
+		balance += Cash.convert(amount);
 		depositCount++;
 	}
 
@@ -92,7 +92,7 @@ public abstract class BankAccount
 
 	public void withdraw(double amount)
 	{
-		balance -= amount;
+		balance -= Cash.convert(amount);
 		withdrawCount++;
 	}
 
@@ -100,10 +100,9 @@ public abstract class BankAccount
 	 * Calculates monthly interest earned and adds to balance
 	 */
 
-	public void calcInterest()
+	public int calcInterest()
 	{
-		double interestEarned = (annualRate/12) * balance;
-		balance += interestEarned;
+		return Cash.convert((annualRate/12) * balance);
 	}
 
 	/**
@@ -112,8 +111,8 @@ public abstract class BankAccount
 
 	public void monthlyProcess()
 	{
-		balance -= serviceCharge;
-		calcInterest();
+		balance -= serviceCharge * 100;
+		balance += calcInterest();
 		depositCount = 0;
 		withdrawCount = 0;
 		serviceCharge = 0;
