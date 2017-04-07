@@ -53,7 +53,7 @@ public class SavingsAccount extends BankAccount
 	 * Calculates service charge and processes monthly fees
 	 */
 
-	public void monthlyProcess()
+	public double monthlyProcess()
 	{
 		int totalWithdraw = getWithdrawals();
 
@@ -63,7 +63,7 @@ public class SavingsAccount extends BankAccount
 			//$1 charge for each withdrawal after 4
 			setCharges(totalWithdraw - 4);
 		}
-		super.monthlyProcess();
+		return super.monthlyProcess();
 	}
 
 }

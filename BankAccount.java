@@ -50,30 +50,12 @@ public abstract class BankAccount
 	}
 
 	/**
-	 * Sets withdraw count to 0
-	 */
-
-	public void resetWithdrawals()
-	{
-		withdrawCount = 0;
-	}
-
-	/**
 	 * Retrieves deposit count
 	 */
 
 	public int getDeposits()
 	{
 		return depositCount;
-	}
-
-	/**
-	 * Sets deposit count to 0
-	 */
-
-	public void resetDeposits()
-	{
-		depositCount = 0;
 	}
 
 	/**
@@ -97,24 +79,30 @@ public abstract class BankAccount
 	}
 
 	/**
-	 * Calculates monthly interest earned and adds to balance
+	 * Subtracts the monthly service charges from the balance, then calculates interest
 	 */
 
 	public int calcInterest()
 	{
-		return Cash.convert((annualRate/12) * balance);
+		return (int)((annualRate/12) * balance);
 	}
 
 	/**
 	 * Processes monthly charges, interests and resets transaction counts
 	 */
 
-	public void monthlyProcess()
+	public double monthlyProcess()
 	{
 		balance -= serviceCharge * 100;
-		balance += calcInterest();
+
+		//Stores earned interest after calculating service charges
+		int earned = calcInterest();
+
+		balance += earned;
 		depositCount = 0;
 		withdrawCount = 0;
 		serviceCharge = 0;
+
+		return Cash.convert(earned);
 	}
 }
