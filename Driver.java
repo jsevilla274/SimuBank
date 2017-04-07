@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.text.DecimalFormat;
 import java.io.*;
+import java.math.RoundingMode;
 
 /**
  * This program demonstrates the SavingsAccount class
@@ -22,12 +23,18 @@ public class Driver
 		//DecimalFormat to format money amount.
 		DecimalFormat money = new DecimalFormat("#,##0.00");
 
+		//money format set to round down to avoid displaying incorrect amounts
+		money.setRoundingMode(RoundingMode.DOWN);
+
+		//Intro prompt
+		System.out.print("\nSimuBank Banking Software v1.0.4.7\n(c) 6017 E Corporation. All plights observed.\n\n");
+
 		//Prompt user for starting balance.
-		System.out.print("Thank you for opening a new savings account!\nPlease enter your starting balance (Must have an minimum initial deposit of $25): ");
+		System.out.print("Thank you for opening a new savings account!\nPlease enter your starting balance (Must have an minimum initial deposit of $25): $");
 		balance = startingBalance(keyboard);
 
 		//Prompt user for starting annual interest rate.
-		System.out.print("Please enter your annual interest rate: ");
+		System.out.print("Please enter your annual % interest rate: ");
 		annualRate = startingRate(keyboard);
 
 		System.out.print("\nYour account has been opened successfully!\n");
@@ -65,10 +72,11 @@ public class Driver
 				}
 				else if (choice == 4)
 				{
-					//month++
+					nextMonth(account, keyboard, money, annualRate, month++);
 				}
 				else if (choice == 5)
 				{
+					System.out.print("\nThank you for choosing SimuBank!\nLog out successful.");
 					running = false;
 				}
 				else
@@ -103,12 +111,12 @@ public class Driver
 				balance = keyboard.nextDouble();
 
 				if (balance < 25) {
-					System.out.print("Insufficient funds to open the account. Please enter a different starting balance: ");
+					System.out.print("Insufficient funds to open the account. Please enter a different starting balance: $");
 				}
 			}
 			catch (InputMismatchException e)
 			{
-				System.out.print("I'm sorry, that is not valid input. Please enter your starting balance: ");
+				System.out.print("I'm sorry, that is not valid input. Please enter your starting balance: $");
 			}
 			finally
 			{
@@ -121,21 +129,21 @@ public class Driver
 
 	public static double startingRate(Scanner keyboard)
 	{
-		double annualRate = -1;		//-1 enters into while loop and still allows 0 annual rate
+		double annualRate = -1;		//receives a percentage in the form of an integer
 		while (annualRate < 0)
 		{
 			try
 			{
-				annualRate = keyboard.nextDouble();
+				annualRate = keyboard.nextInt();
 
 				if (annualRate < 0)
 				{
-					System.out.print("Please enter a non-negative annual interest rate: ");
+					System.out.print("Please enter a non-negative annual % interest rate: ");
 				}
 			}
 			catch (InputMismatchException e)
 			{
-				System.out.print("I'm sorry, that is not valid input. Please enter your annual interest rate: ");
+				System.out.print("I'm sorry, that is not valid input. Please enter your annual % interest rate: ");
 			}
 			finally
 			{
@@ -143,7 +151,7 @@ public class Driver
 				keyboard.nextLine();
 			}
 		}
-		return annualRate;
+		return annualRate/100.0; //returns percentage as a decimal
 	}
 
 	public static void deposit(SavingsAccount account, Scanner keyboard, DecimalFormat money)
@@ -186,10 +194,22 @@ public class Driver
 
 	public static void withdraw(SavingsAccount account, Scanner keyboard, DecimalFormat money)
 	{
-		double amount = -1;
 		if (account.checkStatus())
 		{
-			System.out.print("\nHow much would you like to withdraw?");
+			double amount = -1;								//holds desired withdraw amount
+			int withdrawCount = account.getWithdrawals();	//retrieves withdrawals made
+			String notice = "";								//holds notice message
+
+			if (withdrawCount < 4)
+			{
+				notice = "Notice: " + (4 - withdrawCount) + " withdrawal(s) left before service fees apply.";
+			}
+			else
+			{
+				notice = "Notice: $1 service fee per withdrawal charged at the end of the month.";
+			}
+
+			System.out.print("\nHow much would you like to withdraw? " + notice);
 
 			while (amount < 0 || amount > account.getBalance())
 			{
@@ -271,15 +291,43 @@ public class Driver
 				input = validateYN(keyboard);
 				if (input == 'y' || input == 'Y')
 				{
-					writeStatement(stateFile, info);
+					writeToFile(stateFile, info);
 					System.out.print("\n\""+ filename +"\" updated successfully!\n");
 				}
 			}
 			else
 			{
-				writeStatement(stateFile, info);
+				writeToFile(stateFile, info);
 				System.out.print("\n\""+ filename +"\" created successfully!\n");
 			}
+		}
+
+		//Re-prompt choices
+		choicePrompt(money.format(account.getBalance()));
+	}
+
+	public static void nextMonth(SavingsAccount account, Scanner keyboard, DecimalFormat money, double annualRate, int month)
+	{
+		int withdrawCount = account.getWithdrawals();
+		int charges = (withdrawCount > 4) ? withdrawCount - 4 : 0;
+
+		System.out.print("\nAre you sure you want to proceed to next month? Y/N");
+		char input = validateYN(keyboard);
+		
+		if (input == 'y' || input == 'Y')
+		{
+			System.out.println("\nMonth " + month + " has ended!");
+
+			//Calculates the number of service charges
+			System.out.println("Service charges due: $" + money.format(charges));
+
+			//Processes the monthly charges, retrieving interest gained
+			System.out.println("Interest accrued: $" + money.format(account.monthlyProcess()));
+
+			System.out.print("\nPress Enter to continue.");
+
+			//Wait for Enter
+			keyboard.nextLine();
 		}
 
 		//Re-prompt choices
@@ -314,7 +362,7 @@ public class Driver
 		return input;
 	}
 
-	public static void writeStatement(File file, String[] info) throws IOException
+	public static void writeToFile(File file, String[] info) throws IOException
 	{
 		PrintWriter outputFile = new PrintWriter(file);
 		for (String data : info)
