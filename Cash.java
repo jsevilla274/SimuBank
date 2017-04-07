@@ -1,5 +1,3 @@
-import java.lang.Math;
-
 /**
  * Cash class
  * Manipulates double-type inputs of money as integers to prevent decimal place
@@ -14,7 +12,7 @@ public class Cash
 
 	public static int convert(double amount)
 	{
-		return (int)Math.floor(amount*100);
+		return (int)(amount*100);
 	}
 
 	/**
@@ -23,6 +21,6 @@ public class Cash
 
 	public static double convert(int amount)
 	{
-		return amount/100.00;
+		return amount/100.0;
 	}
 }
