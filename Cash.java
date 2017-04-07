@@ -7,7 +7,7 @@
 public class Cash
 {
 	/**
-	 * Converts double amount into integer
+	 * Converts double amount into integer dollars
 	 */
 
 	public static int convert(double amount)

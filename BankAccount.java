@@ -64,8 +64,11 @@ public abstract class BankAccount
 
 	public void deposit(double amount)
 	{
-		balance += Cash.convert(amount);
-		depositCount++;
+		if (amount > 0)
+		{
+			balance += Cash.convert(amount);
+			depositCount++;
+		}
 	}
 
 	/**
@@ -74,8 +77,11 @@ public abstract class BankAccount
 
 	public void withdraw(double amount)
 	{
-		balance -= Cash.convert(amount);
-		withdrawCount++;
+		if (amount > 0)
+		{
+			balance -= Cash.convert(amount);
+			withdrawCount++;
+		}
 	}
 
 	/**
@@ -93,12 +99,21 @@ public abstract class BankAccount
 
 	public double monthlyProcess()
 	{
-		balance -= serviceCharge * 100;
+		int earned = 0; //Stores earned interest after calculating service charges
 
-		//Stores earned interest after calculating service charges
-		int earned = calcInterest();
+		//only perform monthly calculations if balance doesn't go below 0
+		if (balance - serviceCharge * 100 > 0)
+		{
+			balance -= serviceCharge * 100;
+			earned = calcInterest();
+			balance += earned;
+		}
+		else
+		{
+			//otherwise set balance to 0
+			balance = 0;
+		}
 
-		balance += earned;
 		depositCount = 0;
 		withdrawCount = 0;
 		serviceCharge = 0;
