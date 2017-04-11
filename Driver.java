@@ -46,7 +46,7 @@ public class Driver
 		choicePrompt(money.format(account.getBalance()));
 
 		boolean running = true;		//Determines when to exit main prompt loop
-		int choice = 0;
+		int choice;
 
 		//Main prompt loop
 		while(running)
@@ -72,7 +72,7 @@ public class Driver
 				}
 				else if (choice == 4)
 				{
-					nextMonth(account, keyboard, money, annualRate, month++);
+					nextMonth(account, keyboard, money, month++);
 				}
 				else if (choice == 5)
 				{
@@ -198,7 +198,7 @@ public class Driver
 		{
 			double amount = -1;								//holds desired withdraw amount
 			int withdrawCount = account.getWithdrawals();	//retrieves withdrawals made
-			String notice = "";								//holds notice message
+			String notice;									//holds notice message
 
 			if (withdrawCount < 4)
 			{
@@ -306,7 +306,7 @@ public class Driver
 		choicePrompt(money.format(account.getBalance()));
 	}
 
-	public static void nextMonth(SavingsAccount account, Scanner keyboard, DecimalFormat money, double annualRate, int month)
+	public static void nextMonth(SavingsAccount account, Scanner keyboard, DecimalFormat money, int month)
 	{
 		int withdrawCount = account.getWithdrawals();
 		int charges = (withdrawCount > 4) ? withdrawCount - 4 : 0;
@@ -337,7 +337,7 @@ public class Driver
 	public static char validateYN(Scanner keyboard)
 	{
 		char input = '\0';				//character representing user input
-		String temp = " ";				//temporary string to hold user input
+		String temp;					//temporary string to hold user input
 		boolean invalidInput = true;	//tracks if user placed correct input
 
 		while (invalidInput)
