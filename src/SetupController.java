@@ -75,7 +75,7 @@ public class SetupController
             else
             {
                 rateAlert.setText("");
-                annualRate = tempRate;
+                annualRate = tempRate/100; //divided by 100 to retrieve decimal from percent
             }
         }
         catch (InputMismatchException e)

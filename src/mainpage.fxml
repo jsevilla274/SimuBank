@@ -22,7 +22,7 @@
       </Label>
       <Button fx:id="withdrawButton" layoutX="200.0" layoutY="90.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Withdraw" />
       <Button fx:id="depositButton" layoutX="200.0" layoutY="119.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Deposit" />
-      <Button fx:id="statementButton" layoutX="200.0" layoutY="148.0" mnemonicParsing="false" prefWidth="170.0" text="View Statement" />
+      <Button fx:id="statementButton" layoutX="200.0" layoutY="148.0" mnemonicParsing="false" onAction="#statementButtonListener" prefWidth="170.0" text="View Statement" />
       <Button fx:id="monthButton" layoutX="200.0" layoutY="177.0" mnemonicParsing="false" prefWidth="170.0" text="Proceed to Next Month &gt;&gt;" />
       <TextField fx:id="statusOutput" alignment="CENTER_RIGHT" editable="false" layoutX="38.0" layoutY="174.0" />
       <ImageView fx:id="logoImage" fitHeight="58.0" fitWidth="63.0" layoutX="84.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />

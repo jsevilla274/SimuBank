@@ -41,10 +41,14 @@ public class MainController
     private Label systemOutput;
 
     private SavingsAccount account;
+    private int month = 1;
     private DecimalFormat money = new DecimalFormat("#,##0.00");
     private Stage transactionWindow;
+    private Stage statementWindow;
     private TransController transController;
+    private StateController stateController;
     private boolean stageflag = true;
+    private boolean stageflag2 = true;
 
     public MainController(SavingsAccount account)
     {
@@ -68,6 +72,13 @@ public class MainController
         transController = loader.getController();
         transactionWindow.initModality(Modality.APPLICATION_MODAL);
 
+        //creates stage for statement window
+        statementWindow = new Stage();
+        loader = new FXMLLoader(getClass().getResource("statementpage.fxml"));
+        statementWindow.setScene(new Scene(loader.load()));
+        statementWindow.setTitle("View Statement");
+        stateController = loader.getController();
+        statementWindow.initModality(Modality.APPLICATION_MODAL);
     }
 
     public void transactionButtonListener(ActionEvent event)
@@ -111,12 +122,10 @@ public class MainController
             if (modeID == 1)
             {
                 account.withdraw(userOut);
-                System.out.println("Withdrawn");
             }
             else
             {
                 account.deposit(userOut);
-                System.out.println("Deposited");
             }
             refreshInfo();
             String sysMsg = "System Message: $";
@@ -124,6 +133,17 @@ public class MainController
             sysMsg += " successfully";
             systemOutput.setText(sysMsg);
         }
+    }
+
+    public void statementButtonListener()
+    {
+        if (stageflag2)
+        {
+            statementWindow.initOwner(balanceOutput.getScene().getWindow());
+            stageflag2 = false;
+        }
+        stateController.passData(account, money, month);
+        statementWindow.showAndWait();
     }
 
     public void refreshInfo()

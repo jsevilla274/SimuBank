@@ -23,11 +23,6 @@ public class TransController {
     private double userBalance;
     private double validatedAmount;
 
-    public void initialize()
-    {
-
-    }
-
     public void passData(int modeID, double userBalance)
     {
         this.modeID = modeID;
