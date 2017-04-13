@@ -14,7 +14,6 @@ import java.text.DecimalFormat;
 
 public class MainController
 {
-
     @FXML
     private TextField balanceOutput;
 
@@ -38,7 +37,8 @@ public class MainController
 
     private SavingsAccount account;
     private DecimalFormat money = new DecimalFormat("#,##0.00");
-    private Stage transactionPrompt;
+    private Stage transactionWindow;
+    private TransController transController;
     private boolean stageflag = true;
 
     public MainController(SavingsAccount account)
@@ -48,15 +48,19 @@ public class MainController
 
     public void initialize() throws IOException
     {
+        FXMLLoader loader;
         Image logo = new Image(getClass().getResourceAsStream("/assets/logo.png"));
         logoImage.setImage(logo);
 
         balanceOutput.setText(money.format(account.getBalance()));
         statusOutput.setText(account.checkStatus() ? "Active" : "Inactive");
 
-        transactionPrompt = new Stage();
-        transactionPrompt.setScene(new Scene(FXMLLoader.load(getClass().getResource("transactionpage.fxml"))));
-        transactionPrompt.initModality(Modality.APPLICATION_MODAL);
+        //creates stage for transactions window
+        transactionWindow = new Stage();
+        loader = new FXMLLoader(getClass().getResource("transactionpage.fxml"));
+        transactionWindow.setScene(new Scene(loader.load()));
+        transController = loader.getController();
+        transactionWindow.initModality(Modality.APPLICATION_MODAL);
 
     }
 
@@ -65,19 +69,23 @@ public class MainController
         //show and wait
         if (stageflag)
         {
-            transactionPrompt.initOwner(balanceOutput.getScene().getWindow());
+            transactionWindow.initOwner(balanceOutput.getScene().getWindow());
             stageflag = false;
         }
 
         if (event.getSource() == withdrawButton)
         {
-            transactionPrompt.setTitle("Withdraw");
+            transactionWindow.setTitle("Withdraw");
+            transController.passData(1, account.getBalance());
         }
         else if (event.getSource() == depositButton)
         {
-            transactionPrompt.setTitle("Deposit");
+            transactionWindow.setTitle("Deposit");
+            transController.passData(2, account.getBalance());
         }
-        transactionPrompt.showAndWait();
+        transactionWindow.showAndWait();
+        System.out.println(transController.getValidatedAmount());
+        //get controller class, after showandwait we can retrieve text field presumably
         //set label to appropriate statement
         //set the title
     }

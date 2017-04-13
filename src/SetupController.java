@@ -58,7 +58,7 @@ public class SetupController
         }
         catch (NoSuchElementException e)
         {
-            balanceAlert.setText("Please enter a balance");
+            balanceAlert.setText("*Please enter a balance");
             balance = -1;
         }
 
