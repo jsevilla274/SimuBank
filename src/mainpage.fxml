@@ -36,5 +36,6 @@
             <Font size="16.0" />
          </font>
       </Label>
+      <Label fx:id="systemOutput" layoutX="39.0" layoutY="216.0" prefHeight="17.0" prefWidth="330.0" textFill="#8d8d8d" />
    </children>
 </AnchorPane>

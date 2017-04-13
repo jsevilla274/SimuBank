@@ -3,6 +3,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class MainController
@@ -35,6 +37,9 @@ public class MainController
     @FXML
     private ImageView logoImage;
 
+    @FXML
+    private Label systemOutput;
+
     private SavingsAccount account;
     private DecimalFormat money = new DecimalFormat("#,##0.00");
     private Stage transactionWindow;
@@ -44,16 +49,17 @@ public class MainController
     public MainController(SavingsAccount account)
     {
         this.account = account;
+        money.setRoundingMode(RoundingMode.DOWN);
     }
 
     public void initialize() throws IOException
     {
+        //set logo on the window
         FXMLLoader loader;
         Image logo = new Image(getClass().getResourceAsStream("/assets/logo.png"));
         logoImage.setImage(logo);
 
-        balanceOutput.setText(money.format(account.getBalance()));
-        statusOutput.setText(account.checkStatus() ? "Active" : "Inactive");
+        refreshInfo();
 
         //creates stage for transactions window
         transactionWindow = new Stage();
@@ -66,28 +72,64 @@ public class MainController
 
     public void transactionButtonListener(ActionEvent event)
     {
-        //show and wait
+        double userOut = 0;
+        int modeID = 0;
+
         if (stageflag)
         {
             transactionWindow.initOwner(balanceOutput.getScene().getWindow());
             stageflag = false;
         }
 
+        systemOutput.setText("");
         if (event.getSource() == withdrawButton)
         {
-            transactionWindow.setTitle("Withdraw");
-            transController.passData(1, account.getBalance());
+            if (account.checkStatus())
+            {
+                modeID = 1;
+                transactionWindow.setTitle("Withdraw");
+                transController.passData(modeID, account.getBalance());
+                transactionWindow.showAndWait();
+                userOut = transController.getValidatedAmount();
+            }
+            else
+            {
+                systemOutput.setText("System Warning: Inactive accounts can not withdraw");
+            }
         }
         else if (event.getSource() == depositButton)
         {
+            modeID = 2;
             transactionWindow.setTitle("Deposit");
-            transController.passData(2, account.getBalance());
+            transController.passData(modeID, account.getBalance());
+            transactionWindow.showAndWait();
+            userOut = transController.getValidatedAmount();
         }
-        transactionWindow.showAndWait();
-        System.out.println(transController.getValidatedAmount());
-        //get controller class, after showandwait we can retrieve text field presumably
-        //set label to appropriate statement
-        //set the title
+
+        if (userOut != 0)
+        {
+            if (modeID == 1)
+            {
+                account.withdraw(userOut);
+                System.out.println("Withdrawn");
+            }
+            else
+            {
+                account.deposit(userOut);
+                System.out.println("Deposited");
+            }
+            refreshInfo();
+            String sysMsg = "System Message: $";
+            sysMsg += money.format(userOut) + ((modeID == 1) ? " withdrawn" : " deposited");
+            sysMsg += " successfully";
+            systemOutput.setText(sysMsg);
+        }
+    }
+
+    public void refreshInfo()
+    {
+        balanceOutput.setText(money.format(account.getBalance()));
+        statusOutput.setText(account.checkStatus() ? "Active" : "Inactive");
     }
 
 }

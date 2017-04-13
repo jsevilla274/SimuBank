@@ -72,7 +72,6 @@ public class TransController {
             else
             {
                 validatedAmount = userDouble;
-                transAlert.setText("");
                 stage.close();
             }
         }
@@ -82,7 +81,7 @@ public class TransController {
         }
         catch (NoSuchElementException e)
         {
-            System.out.println("*Please enter an amount");
+            transAlert.setText("*Please enter an amount");
         }
     }
 
