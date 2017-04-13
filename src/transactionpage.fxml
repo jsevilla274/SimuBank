@@ -13,8 +13,13 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="transInput" layoutX="46.0" layoutY="49.0" />
+      <TextField fx:id="transInput" alignment="CENTER_RIGHT" layoutX="46.0" layoutY="49.0" />
       <Label fx:id="transAlert" layoutX="46.0" layoutY="75.0" prefHeight="17.0" prefWidth="149.0" textFill="RED" />
       <Button fx:id="transButton" layoutX="80.0" layoutY="107.0" mnemonicParsing="false" onAction="#transButtonListener" prefHeight="25.0" prefWidth="80.0" />
+      <Label layoutX="33.0" layoutY="47.0" text="\$">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

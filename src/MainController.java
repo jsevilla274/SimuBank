@@ -45,10 +45,13 @@ public class MainController
     private DecimalFormat money = new DecimalFormat("#,##0.00");
     private Stage transactionWindow;
     private Stage statementWindow;
+    private Stage monthWindow;
     private TransController transController;
     private StateController stateController;
-    private boolean stageflag = true;
-    private boolean stageflag2 = true;
+    private MonthController monthController;
+    private boolean transOwner = true;
+    private boolean stateOwner = true;
+    private boolean monthOwner = true;
 
     public MainController(SavingsAccount account)
     {
@@ -79,6 +82,14 @@ public class MainController
         statementWindow.setTitle("View Statement");
         stateController = loader.getController();
         statementWindow.initModality(Modality.APPLICATION_MODAL);
+
+        //creates stage for month window
+        monthWindow = new Stage();
+        loader = new FXMLLoader(getClass().getResource("monthpage.fxml"));
+        monthWindow.setScene(new Scene(loader.load()));
+        monthWindow.setTitle("Advance Month");
+        monthController = loader.getController();
+        monthWindow.initModality(Modality.APPLICATION_MODAL);
     }
 
     public void transactionButtonListener(ActionEvent event)
@@ -86,10 +97,10 @@ public class MainController
         double userOut = 0;
         int modeID = 0;
 
-        if (stageflag)
+        if (transOwner)
         {
             transactionWindow.initOwner(balanceOutput.getScene().getWindow());
-            stageflag = false;
+            transOwner = false;
         }
 
         systemOutput.setText("");
@@ -137,13 +148,28 @@ public class MainController
 
     public void statementButtonListener()
     {
-        if (stageflag2)
+        systemOutput.setText("");
+        if (stateOwner)
         {
             statementWindow.initOwner(balanceOutput.getScene().getWindow());
-            stageflag2 = false;
+            stateOwner = false;
         }
         stateController.passData(account, money, month);
         statementWindow.showAndWait();
+    }
+
+    public void monthButtonListener()
+    {
+        systemOutput.setText("");
+        if (monthOwner)
+        {
+            monthWindow.initOwner(balanceOutput.getScene().getWindow());
+            monthOwner = false;
+        }
+        monthController.passData(account, money, month++);
+        monthWindow.showAndWait();
+        systemOutput.setText("System Message: Month " + month + " has begun");
+        refreshInfo();
     }
 
     public void refreshInfo()
