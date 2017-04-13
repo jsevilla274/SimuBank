@@ -59,6 +59,15 @@ public abstract class BankAccount
 	}
 
 	/**
+	 * Retrieves annual rate
+	 */
+
+	public double getAnnualRate()
+	{
+		return annualRate;
+	}
+
+	/**
 	 * Deposits funds to balance
 	 */
 
