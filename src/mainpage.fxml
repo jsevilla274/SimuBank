@@ -7,28 +7,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="41.0" layoutY="83.0" text="SimuBank™ Savings Account Balance:">
+      <Label layoutX="38.0" layoutY="83.0" text="Account Balance:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="balanceOutput" editable="false" layoutX="41.0" layoutY="113.0" />
-      <Label layoutX="41.0" layoutY="147.0" text="Account Status:">
+      <TextField fx:id="balanceOutput" alignment="CENTER_RIGHT" editable="false" layoutX="38.0" layoutY="113.0" />
+      <Label layoutX="38.0" layoutY="147.0" text="Account Status:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="withdrawButton" layoutX="28.0" layoutY="222.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Withdraw" />
-      <Button fx:id="depositButton" layoutX="203.0" layoutY="222.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Deposit" />
-      <Button fx:id="statementButton" layoutX="28.0" layoutY="251.0" mnemonicParsing="false" prefWidth="170.0" text="View Statement" />
-      <Button fx:id="monthButton" layoutX="203.0" layoutY="251.0" mnemonicParsing="false" prefWidth="170.0" text="Proceed to Next Month &gt;&gt;" />
-      <TextField fx:id="statusOutput" editable="false" layoutX="41.0" layoutY="174.0" />
+      <Button fx:id="withdrawButton" layoutX="200.0" layoutY="90.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Withdraw" />
+      <Button fx:id="depositButton" layoutX="200.0" layoutY="119.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Deposit" />
+      <Button fx:id="statementButton" layoutX="200.0" layoutY="148.0" mnemonicParsing="false" prefWidth="170.0" text="View Statement" />
+      <Button fx:id="monthButton" layoutX="200.0" layoutY="177.0" mnemonicParsing="false" prefWidth="170.0" text="Proceed to Next Month &gt;&gt;" />
+      <TextField fx:id="statusOutput" alignment="CENTER_RIGHT" editable="false" layoutX="38.0" layoutY="174.0" />
       <ImageView fx:id="logoImage" fitHeight="58.0" fitWidth="63.0" layoutX="84.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="158.0" layoutY="26.0" text="SimuBank">
          <font>
             <Font name="Cambria Math" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="112.0" text="\$">
+         <font>
+            <Font size="16.0" />
          </font>
       </Label>
    </children>

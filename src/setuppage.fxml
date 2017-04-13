@@ -8,35 +8,35 @@
 
 <AnchorPane prefHeight="250.0" prefWidth="250.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SetupController">
    <children>
-      <Label layoutX="40.0" layoutY="56.0" text="Starting Balance: ">
+      <Label layoutX="48.0" layoutY="56.0" text="Starting Balance: ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="129.0" text="Annual Interest Rate:">
+      <Label layoutX="49.0" layoutY="128.0" text="Annual Interest Rate:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="balanceInput" alignment="CENTER_RIGHT" layoutX="56.0" layoutY="83.0" />
-      <TextField fx:id="rateInput" alignment="CENTER_RIGHT" layoutX="40.0" layoutY="155.0" />
+      <TextField fx:id="balanceInput" alignment="CENTER_RIGHT" layoutX="47.0" layoutY="83.0" />
+      <TextField fx:id="rateInput" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="154.0" />
       <Label layoutX="61.0" layoutY="11.0" text="Account Setup" underline="true">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="41.0" layoutY="81.0" text="\$">
+      <Label layoutX="34.0" layoutY="81.0" text="\$">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="193.0" layoutY="154.0" text="\%">
+      <Label layoutX="199.0" layoutY="152.0" text="\%">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <Button fx:id="registerButton" layoutX="73.0" layoutY="211.0" mnemonicParsing="false" onAction="#registerButtonListener" prefHeight="25.0" prefWidth="100.0" text="Register" />
-      <Label fx:id="balanceAlert" layoutX="41.0" layoutY="108.0" prefHeight="17.0" prefWidth="164.0" textFill="RED" />
-      <Label fx:id="rateAlert" layoutX="40.0" layoutY="180.0" prefHeight="17.0" prefWidth="164.0" textFill="RED" />
+      <Label fx:id="balanceAlert" layoutX="47.0" layoutY="108.0" prefHeight="17.0" prefWidth="149.0" textFill="RED" />
+      <Label fx:id="rateAlert" layoutX="47.0" layoutY="180.0" prefHeight="17.0" prefWidth="149.0" textFill="RED" />
    </children>
 </AnchorPane>
