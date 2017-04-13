@@ -20,8 +20,8 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="withdrawButton" layoutX="28.0" layoutY="222.0" mnemonicParsing="false" onAction="#withdrawButtonListener" prefWidth="170.0" text="Withdraw" />
-      <Button fx:id="depositButton" layoutX="203.0" layoutY="222.0" mnemonicParsing="false" prefWidth="170.0" text="Deposit" />
+      <Button fx:id="withdrawButton" layoutX="28.0" layoutY="222.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Withdraw" />
+      <Button fx:id="depositButton" layoutX="203.0" layoutY="222.0" mnemonicParsing="false" onAction="#transactionButtonListener" prefWidth="170.0" text="Deposit" />
       <Button fx:id="statementButton" layoutX="28.0" layoutY="251.0" mnemonicParsing="false" prefWidth="170.0" text="View Statement" />
       <Button fx:id="monthButton" layoutX="203.0" layoutY="251.0" mnemonicParsing="false" prefWidth="170.0" text="Proceed to Next Month &gt;&gt;" />
       <TextField fx:id="statusOutput" editable="false" layoutX="41.0" layoutY="174.0" />
