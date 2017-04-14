@@ -74,6 +74,7 @@ public class MainController
         transactionWindow.setScene(new Scene(loader.load()));
         transController = loader.getController();
         transactionWindow.initModality(Modality.APPLICATION_MODAL);
+        transactionWindow.getIcons().add(logo);
 
         //creates stage for statement window
         statementWindow = new Stage();
@@ -82,6 +83,7 @@ public class MainController
         statementWindow.setTitle("View Statement");
         stateController = loader.getController();
         statementWindow.initModality(Modality.APPLICATION_MODAL);
+        statementWindow.getIcons().add(logo);
 
         //creates stage for month window
         monthWindow = new Stage();
@@ -90,6 +92,7 @@ public class MainController
         monthWindow.setTitle("Advance Month");
         monthController = loader.getController();
         monthWindow.initModality(Modality.APPLICATION_MODAL);
+        monthWindow.getIcons().add(logo);
     }
 
     public void transactionButtonListener(ActionEvent event)
