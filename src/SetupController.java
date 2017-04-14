@@ -98,7 +98,7 @@ public class SetupController
             //creating a controller from class (allows us to pass in parameter)
             MainController controller = new MainController(new SavingsAccount(balance, annualRate));
             //creating a loader instead of using static loader
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("mainpage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/mainpage.fxml"));
             //assigning controller class to our loaded fxml scene
             loader.setController(controller);
             //loading in the new fxml scene to the stage and change name

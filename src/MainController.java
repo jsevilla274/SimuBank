@@ -70,7 +70,7 @@ public class MainController
 
         //creates stage for transactions window
         transactionWindow = new Stage();
-        loader = new FXMLLoader(getClass().getResource("transactionpage.fxml"));
+        loader = new FXMLLoader(getClass().getResource("fxml/transactionpage.fxml"));
         transactionWindow.setScene(new Scene(loader.load()));
         transController = loader.getController();
         transactionWindow.initModality(Modality.APPLICATION_MODAL);
@@ -78,7 +78,7 @@ public class MainController
 
         //creates stage for statement window
         statementWindow = new Stage();
-        loader = new FXMLLoader(getClass().getResource("statementpage.fxml"));
+        loader = new FXMLLoader(getClass().getResource("fxml/statementpage.fxml"));
         statementWindow.setScene(new Scene(loader.load()));
         statementWindow.setTitle("View Statement");
         stateController = loader.getController();
@@ -87,7 +87,7 @@ public class MainController
 
         //creates stage for month window
         monthWindow = new Stage();
-        loader = new FXMLLoader(getClass().getResource("monthpage.fxml"));
+        loader = new FXMLLoader(getClass().getResource("fxml/monthpage.fxml"));
         monthWindow.setScene(new Scene(loader.load()));
         monthWindow.setTitle("Advance Month");
         monthController = loader.getController();
@@ -119,7 +119,7 @@ public class MainController
             }
             else
             {
-                systemOutput.setText("System Warning: Inactive accounts can not withdraw");
+                systemOutput.setText("System Warning: Inactive accounts cannot withdraw");
             }
         }
         else if (event.getSource() == depositButton)

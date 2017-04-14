@@ -18,7 +18,7 @@ public class DriverGUI extends Application
     @Override
     public void start(Stage stage) throws IOException
     {
-        Parent parent = FXMLLoader.load(getClass().getResource("setuppage.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("fxml/setuppage.fxml"));
         Scene scene = new Scene(parent);
 
         stage.setTitle("Opening your Savings Account");
