@@ -72,7 +72,7 @@ public class Driver
 				}
 				else if (choice == 4)
 				{
-					nextMonth(account, keyboard, money, month++);
+					month += nextMonth(account, keyboard, money, month);
 				}
 				else if (choice == 5)
 				{
@@ -306,7 +306,7 @@ public class Driver
 		choicePrompt(money.format(account.getBalance()));
 	}
 
-	public static void nextMonth(SavingsAccount account, Scanner keyboard, DecimalFormat money, int month)
+	public static int nextMonth(SavingsAccount account, Scanner keyboard, DecimalFormat money, int month)
 	{
 		int withdrawCount = account.getWithdrawals();
 		int charges = (withdrawCount > 4) ? withdrawCount - 4 : 0;
@@ -328,10 +328,19 @@ public class Driver
 
 			//Wait for Enter
 			keyboard.nextLine();
+
+			//Re-prompt choices
+			choicePrompt(money.format(account.getBalance()));
+
+			//Add 1 to month
+			return 1;
 		}
 
 		//Re-prompt choices
 		choicePrompt(money.format(account.getBalance()));
+
+		//Add 0 to month
+		return 0;
 	}
 
 	public static char validateYN(Scanner keyboard)
