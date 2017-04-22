@@ -89,7 +89,7 @@ public class SetupController
             annualRate = -1;
         }
 
-        if (balance > 25 && annualRate > 0)
+        if (balance >= 25 && annualRate > 0)
         {
             //change scene
             Stage stage = (Stage) registerButton.getScene().getWindow();

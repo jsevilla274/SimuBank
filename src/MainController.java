@@ -89,7 +89,7 @@ public class MainController
         monthWindow = new Stage();
         loader = new FXMLLoader(getClass().getResource("fxml/monthpage.fxml"));
         monthWindow.setScene(new Scene(loader.load()));
-        monthWindow.setTitle("Advance Month");
+        monthWindow.setTitle("Monthly Report");
         monthController = loader.getController();
         monthWindow.initModality(Modality.APPLICATION_MODAL);
         monthWindow.getIcons().add(logo);

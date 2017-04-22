@@ -16,7 +16,7 @@ public class StateController {
     @FXML
     private Button saveButton;
 
-    private String info;
+    private String info; //stores account statement information
 
     public void passData(SavingsAccount account, DecimalFormat money, int month)
     {
